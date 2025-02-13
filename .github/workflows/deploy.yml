@@ -31,13 +31,13 @@ jobs:
 
       - name: Build and push Web API image
         run: |
-          docker build -t ghcr.io/PascalIcatt/mywebapi:${{ steps.version.outputs.image_tag }} -f MyWebApi/Dockerfile .
-          docker push ghcr.io/PascalIcatt/mywebapi:${{ steps.version.outputs.image_tag }}
+          docker build -t ghcr.io/pascalicatt/mywebapi:${{ steps.version.outputs.image_tag }} -f MyWebApi/Dockerfile .
+          docker push ghcr.io/pascalicatt/mywebapi:${{ steps.version.outputs.image_tag }}
 
       - name: Build and push CronJob image
         run: |
-          docker build -t ghcr.io/PascalIcatt/mycronjob:${{ steps.version.outputs.image_tag }} -f MyCronJob/Dockerfile .
-          docker push ghcr.io/PascalIcatt/mycronjob:${{ steps.version.outputs.image_tag }}
+          docker build -t ghcr.io/pascalicatt/mycronjob:${{ steps.version.outputs.image_tag }} -f MyCronJob/Dockerfile .
+          docker push ghcr.io/pascalicatt/mycronjob:${{ steps.version.outputs.image_tag }}
 
       - name: Update Helm chart version
         run: |
@@ -50,17 +50,17 @@ jobs:
           helm package myapp-chart --version ${{ steps.version.outputs.chart_version }}
           mkdir -p ./helm-charts
           mv myapp-chart-${{ steps.version.outputs.chart_version }}.tgz ./helm-charts/
-          helm repo index ./helm-charts --url https://PascalIcatt.github.io/TestDeployRepo/
+          helm repo index ./helm-charts --url https://pascalicatt.github.io/testdeployrepo/
 
       - name: Publish Helm Chart to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GHCR_PAT }}
           publish_dir: ./helm-charts
           keep_files: true
 
       - name: Deploy with Helm
         run: |
-          helm repo add myrepo https://PascalIcatt.github.io/TestDeployRepo/
+          helm repo add myrepo https://pascalicatt.github.io/testdeployrepo/
           helm repo update
           helm upgrade --install myapp myrepo/myapp-chart --version ${{ steps.version.outputs.chart_version }} --atomic --timeout 300s
