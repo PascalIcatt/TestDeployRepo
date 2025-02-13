@@ -49,14 +49,10 @@ jobs:
 
       - name: Release Helm Charts with Chart Releaser
         uses: helm/chart-releaser-action@v1.7.0
-        with:
-          charts_dir: myapp-chart
-          version: ${{ steps.version.outputs.chart_version }}
         env:
           CR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CR_OWNER: ${{ github.repository_owner }}
           CR_REPO: ${{ github.event.repository.name }}
-          CR_FORCE: true
 
       - name: Deploy with Helm
         run: |
