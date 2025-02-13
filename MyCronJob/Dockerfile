@@ -9,5 +9,5 @@ WORKDIR "/src/MyCronJob"
 RUN dotnet publish "MyCronJob.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=build /app/publish .
 ENTRYPOINT ["dotnet", "MyCronJob.dll"]
