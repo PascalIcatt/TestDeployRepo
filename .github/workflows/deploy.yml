@@ -44,8 +44,8 @@ jobs:
       
       - name: Bump Chart Version
         run: |
-          sed -i "s/^version:.*/version: ${{ steps.version.outputs.chart_version }}/" myapp-chart/Chart.yaml
-          sed -i "s/^appVersion:.*/appVersion: ${{ steps.version.outputs.image_tag }}/" myapp-chart/Chart.yaml
+          sed -i "s/^version:.*/version: ${{ steps.version.outputs.chart_version }}/" charts/Chart.yaml
+          sed -i "s/^appVersion:.*/appVersion: ${{ steps.version.outputs.image_tag }}/" charts/Chart.yaml
 
       - name: Release Helm Charts with Chart Releaser
         uses: helm/chart-releaser-action@v1.7.0
