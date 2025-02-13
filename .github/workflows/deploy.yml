@@ -51,6 +51,8 @@ jobs:
       # Use Chart Releaser to package and publish the chart to the gh-pages branch
       - name: Release Helm Charts with Chart Releaser
         uses: helm/chart-releaser-action@v1.3.0
+        with:
+          charts_dir: myapp-chart
         env:
           CR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CR_OWNER: ${{ github.repository_owner }}
