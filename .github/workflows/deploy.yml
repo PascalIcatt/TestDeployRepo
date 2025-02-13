@@ -44,9 +44,9 @@ jobs:
 
       - name: Update Helm chart version
         run: |
-          sed -i "s/^version:.*/version: ${{ steps.version.outputs.chart_version }}/" myapp-chart/Chart.yaml
-          sed -i "s/^appVersion:.*/appVersion: ${{ steps.version.outputs.image_tag }}/" myapp-chart/Chart.yaml
-          sed -i "s/tag: \"latest\"/tag: \"${{ steps.version.outputs.image_tag }}\"/" myapp-chart/values.yaml
+          sed -i "s/^version:.*/version: ${{ steps.version.outputs.chart_version }}/" myapp/Chart.yaml
+          sed -i "s/^appVersion:.*/appVersion: ${{ steps.version.outputs.image_tag }}/" myapp/Chart.yaml
+          sed -i "s/tag: \"latest\"/tag: \"${{ steps.version.outputs.image_tag }}\"/" myapp/values.yaml
 
       - name: Package and Publish Helm Chart
         run: |
