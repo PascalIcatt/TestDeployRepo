@@ -42,15 +42,9 @@ jobs:
           docker build -t ghcr.io/pascalicatt/mycronjob:${{ steps.version.outputs.image_tag }} -f MyCronJob/Dockerfile .
           docker push ghcr.io/pascalicatt/mycronjob:${{ steps.version.outputs.image_tag }}
 
-      - name: Update Helm chart version
-        run: |
-          sed -i "s/^version:.*/version: ${{ steps.version.outputs.chart_version }}/" myapp-chart/Chart.yaml
-          sed -i "s/^appVersion:.*/appVersion: ${{ steps.version.outputs.image_tag }}/" myapp-chart/Chart.yaml
-          sed -i "s/tag: \"latest\"/tag: \"${{ steps.version.outputs.image_tag }}\"/" myapp-chart/values.yaml
-
       # Use Chart Releaser to package and publish the chart to the gh-pages branch
       - name: Release Helm Charts with Chart Releaser
-        uses: helm/chart-releaser-action@v1.3.0
+        uses: helm/chart-releaser-action@v1.7.0
         with:
           charts_dir: myapp-chart
         env:
