@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "myapp-chart.fullname" . }}-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: {{ include "myapp-chart.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "myapp-chart.name" . }}
+    spec:
+      containers:
+      - name: web
+        image: "{{ .Values.web.image.repository }}:{{ .Values.web.image.tag }}"
+        imagePullPolicy: {{ .Values.web.image.pullPolicy }}
+        ports:
+        - containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        volumeMounts:
+          - name: appsettings-volume
+            mountPath: /app/appsettings.json
+            subPath: appsettings.json
+      volumes:
+        - name: appsettings-volume
+          configMap:
+            name: {{ include "myapp-chart.fullname" . }}-appsettings

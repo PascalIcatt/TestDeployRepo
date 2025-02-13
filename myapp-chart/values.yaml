@@ -1,0 +1,19 @@
+web:
+  image:
+    repository: ghcr.io/PascalIcatt/mywebapi
+    tag: "latest"
+    pullPolicy: IfNotPresent
+
+cron:
+  schedule: "0 0 * * *"
+  image:
+    repository: ghcr.io/PascalIcatt/mycronjob
+    tag: "latest"
+    pullPolicy: IfNotPresent
+
+appsettings:
+  Setting1: "Value1"
+  Setting2: "Value2"
+
+secrets:
+  ConnectionString: "your-connection-string"
