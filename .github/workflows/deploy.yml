@@ -44,15 +44,15 @@ jobs:
 
       - name: Update Helm chart version
         run: |
-          sed -i "s/^version:.*/version: ${{ steps.version.outputs.chart_version }}/" myapp/Chart.yaml
-          sed -i "s/^appVersion:.*/appVersion: ${{ steps.version.outputs.image_tag }}/" myapp/Chart.yaml
-          sed -i "s/tag: \"latest\"/tag: \"${{ steps.version.outputs.image_tag }}\"/" myapp/values.yaml
+          sed -i "s/^version:.*/version: ${{ steps.version.outputs.chart_version }}/" myapp-chart/Chart.yaml
+          sed -i "s/^appVersion:.*/appVersion: ${{ steps.version.outputs.image_tag }}/" myapp-chart/Chart.yaml
+          sed -i "s/tag: \"latest\"/tag: \"${{ steps.version.outputs.image_tag }}\"/" myapp-chart/values.yaml
 
       - name: Package and Publish Helm Chart
         run: |
           helm package myapp-chart --version ${{ steps.version.outputs.chart_version }}
           mkdir -p ./helm-charts
-          mv myapp-chart-${{ steps.version.outputs.chart_version }}.tgz ./helm-charts/
+          mv myapp-${{ steps.version.outputs.chart_version }}.tgz ./helm-charts/
           helm repo index ./helm-charts --url https://pascalicatt.github.io/testdeployrepo/
 
       - name: Publish Helm Chart to GitHub Pages
