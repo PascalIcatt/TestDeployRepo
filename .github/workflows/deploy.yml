@@ -30,7 +30,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.PACKAGE_SECRET }}
+          password: ${{ secrets.GHCR_PAT }}
 
       - name: Build and push Web API image
         run: |
@@ -50,7 +50,7 @@ jobs:
       - name: Release Helm Charts with Chart Releaser
         uses: helm/chart-releaser-action@v1.7.0
         env:
-          CR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CR_TOKEN: ${{ secrets.GHCR_PAT }}
           CR_OWNER: ${{ github.repository_owner }}
           CR_REPO: ${{ github.event.repository.name }}
 
