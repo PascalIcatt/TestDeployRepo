@@ -47,11 +47,14 @@ jobs:
         uses: helm/chart-releaser-action@v1.7.0
         with:
           charts_dir: myapp-chart
+          version: ${{ steps.version.outputs.chart_version }}
+          mark_as_latest: true
+          packages_with_index: false
         env:
           CR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CR_OWNER: ${{ github.repository_owner }}
           CR_REPO: ${{ github.event.repository.name }}
-          CR_FORCE: "true"
+          CR_FORCE: true
 
       - name: Deploy with Helm
         run: |
